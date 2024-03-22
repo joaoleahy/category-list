@@ -2,14 +2,14 @@
   <div class="form-container">
     <form @submit.prevent="handleSubmit" class="category-form">
       <div class="form-group">
-        <label for="title">Título:</label>
+        <label for="title">Title:</label>
         <input id="title" v-model="category.title" required class="form-control" />
       </div>
       <div class="form-group">
-        <label for="description">Descrição:</label>
+        <label for="description">Description:</label>
         <textarea id="description" v-model="category.description" required class="form-control"></textarea>
       </div>
-      <button type="submit" class="submit-btn">{{ isEditMode ? 'Atualizar' : 'Criar' }} Categoria</button>
+      <button type="submit" class="submit-btn">{{ isEditMode ? 'Update' : 'Create' }} Category</button>
     </form>
   </div>
 </template>

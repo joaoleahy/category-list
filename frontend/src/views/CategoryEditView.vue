@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ isEditMode ? 'Editar' : 'Criar' }} Categoria</h1>
+    <h1>{{ isEditMode ? 'Update' : 'Create' }} Category</h1>
     <CategoryForm :initialCategory="categoryData" @update="handleUpdate" />
   </div>
 </template>
