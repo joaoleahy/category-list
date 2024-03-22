@@ -1,15 +1,17 @@
 <template>
-  <form @submit.prevent="handleSubmit">
-    <div>
-      <label for="title">Título:</label>
-      <input id="title" v-model="category.title" required />
-    </div>
-    <div>
-      <label for="description">Descrição:</label>
-      <textarea id="description" v-model="category.description" required></textarea>
-    </div>
-    <button type="submit">{{ isEditMode ? 'Atualizar' : 'Criar' }} Categoria</button>
-  </form>
+  <div class="form-container">
+    <form @submit.prevent="handleSubmit" class="category-form">
+      <div class="form-group">
+        <label for="title">Título:</label>
+        <input id="title" v-model="category.title" required class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="description">Descrição:</label>
+        <textarea id="description" v-model="category.description" required class="form-control"></textarea>
+      </div>
+      <button type="submit" class="submit-btn">{{ isEditMode ? 'Atualizar' : 'Criar' }} Categoria</button>
+    </form>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -58,46 +60,61 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
-  .category-form {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background: white;
-    border-radius: 4px;
-  }
-  
-  .form-control {
-    margin-bottom: 1rem;
-  }
-  
-  .form-control label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #129085;
-  }
-  
-  .form-control input,
-  .form-control textarea {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  .save-btn {
-    background-color: #129085;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    text-transform: uppercase;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .save-btn:hover,
-  .save-btn:focus {
-    background-color: #107369;
-  }
-  </style>
+.form-container {
+  display: flex;
+  justify-content: center;
+  padding: 5rem 0;
+}
+
+.category-form {
+  width: 100%;
+  max-width: 40rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #129085;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #129085;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: #107369;
+  outline: none;
+}
+
+.submit-btn {
+  width: 100%;
+  background-color: #129085;
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover,
+.submit-btn:focus {
+  background-color: #0e5f5a;
+}
+</style>
