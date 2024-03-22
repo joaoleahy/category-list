@@ -21,66 +21,97 @@ const deleteCategory = async (id: number) => {
 };
 
 onMounted(fetchCategories);
-
-console.log(categories)
 </script>
 
 <template>
-  <div class="category-container">
-    <div class="category-row" v-for="category in categories" :key="category.id">
-      <div class="category-card">
-        <h3 class="category-title">{{ category.title }}</h3>
-        <p class="category-description">{{ category.description }}</p>
-        <div class="category-actions">
-          <button @click="editCategory(category.id)">Edit</button>
-          <button @click="deleteCategory(category.id)">Delete</button>
-        </div>
+  <div class="category-grid">
+    <div class="category-card" v-for="category in categories" :key="category.id">
+      <div class="card-content">
+        <h3 class="card-title">{{ category.title }}</h3>
+        <p class="card-text">{{ category.description }}</p>
+      </div>
+      <div class="card-actions">
+        <button class="btn-edit" @click="editCategory(category.id)">Edit</button>
+        <button class="btn-delete" @click="deleteCategory(category.id)">Delete</button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.category-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.category-row {
-  flex: 0 0 calc(33.333% - 1rem);
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
 .category-card {
-  border: 1px solid #eee;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  background-color: #fff;
+  background: #ffffff;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
 }
 
-.category-title {
-  margin: 0;
+.category-card:hover {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
   color: #333;
 }
 
-.category-description {
+.card-text {
+  font-size: 14px;
   color: #666;
 }
 
-.category-actions {
-  margin-top: 1rem;
+.card-actions {
+  background: #f5f5f5;
+  padding: 10px 20px;
   text-align: right;
 }
 
-.category-actions button {
-  margin-left: 0.5rem;
-  padding: 0.5rem 1rem;
+.btn-edit,
+.btn-delete {
+  padding: 8px 16px;
   border: none;
-  border-radius: 0.3rem;
+  border-radius: 4px;
+  font-weight: bold;
   cursor: pointer;
+  margin-left: 10px;
 }
 
-.category-actions button:hover {
-  opacity: 0.9;
+.btn-edit {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.btn-edit:hover {
+  background-color: #45A049;
+}
+
+.btn-delete {
+  background-color: #F44336;
+  color: #fff;
+}
+
+.btn-delete:hover {
+  background-color: #D32F2F;
+}
+
+@media (max-width: 600px) {
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
