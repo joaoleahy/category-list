@@ -1,63 +1,63 @@
 <template>
-  <form class="category-form" @submit.prevent="save">
-    <div class="form-control">
-      <label for="title">Título</label>
-      <input id="title" type="text" v-model="title" required>
+  <form @submit.prevent="handleSubmit">
+    <div>
+      <label for="title">Título:</label>
+      <input id="title" v-model="category.title" required />
     </div>
-    <div class="form-control">
-      <label for="description">Descrição</label>
-      <textarea id="description" v-model="description" required></textarea>
+    <div>
+      <label for="description">Descrição:</label>
+      <textarea id="description" v-model="category.description" required></textarea>
     </div>
-    <button type="submit" class="save-btn">Salvar</button>
+    <button type="submit">{{ isEditMode ? 'Atualizar' : 'Criar' }} Categoria</button>
   </form>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { CategoryService } from '../api/CategoryService';
+<script setup lang="ts">
+import { ref, watch, computed } from 'vue';
 import type { Category } from '../types/category';
+import { CategoryService } from '../api/CategoryService';
+import { useRouter, useRoute } from 'vue-router';
+import type { PropType } from 'vue';
 
-export default defineComponent({
-  props: {
-    initialCategory: {
-      type: Object as () => Category,
-      required: false,
-      default: () => ({
-        id: 0,
-        title: '',
-        description: ''
-      })
+const props = defineProps({
+  initialCategory: Object as PropType<Category | null>,
+});
+
+const emit = defineEmits(['update']);
+
+const router = useRouter();
+const route = useRoute();
+
+const isEditMode = computed(() => !!props.initialCategory);
+const category = ref<Category>({
+  id: props.initialCategory?.id || 0,
+  title: props.initialCategory?.title || '',
+  description: props.initialCategory?.description || '',
+});
+
+watch(
+  () => props.initialCategory,
+  (newVal) => {
+    if (newVal) {
+      category.value = { ...newVal };
     }
   },
-  setup(props, { emit }) {
-    const router = useRouter();
-    const title = ref(props.initialCategory.title);
-    const description = ref(props.initialCategory.description);
+  { deep: true }
+);
 
-    const save = async () => {
-      const category: Category = {
-        id: props.initialCategory.id,
-        title: title.value,
-        description: description.value
-      };
-
-      if (category.id) {
-        await CategoryService.updateCategory(category.id, category);
-      } else {
-        await CategoryService.createCategory(category);
-      }
-
-      emit('saved');
-      router.push('/categories');
-    };
-
-    return { title, description, save };
+const handleSubmit = async () => {
+  let savedCategory;
+  if (isEditMode.value) {
+    savedCategory = await CategoryService.updateCategory(category.value.id, category.value);
+  } else {
+    savedCategory = await CategoryService.createCategory(category.value);
   }
-});
+  emit('update', savedCategory);
+  router.push('/categories');
+};
 </script>
-  
-  <style scoped>
+
+<style scoped>
   .category-form {
     max-width: 600px;
     margin: 2rem auto;
@@ -101,4 +101,3 @@ export default defineComponent({
     background-color: #107369;
   }
   </style>
-    
