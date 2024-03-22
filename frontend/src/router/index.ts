@@ -7,8 +7,13 @@ import CategoryForm from '@/components/CategoryForm.vue';
 const routes = [
   { path: '/', component: HomeView },
   { path: '/categories', component: CategoriesView },
-  { path: '/categories/edit/:id', component: CategoryEditView },
   { path: '/categories/add', component: CategoryForm },
+  {
+    path: '/categories/edit/:id',
+    name: 'EditCategory',
+    component: () => import('../views/CategoryEditView.vue'),
+    props: true
+  },
 ];
 
 const router = createRouter({
