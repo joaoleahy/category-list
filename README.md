@@ -69,7 +69,7 @@ Open a new terminal window, navigate to the `frontend` directory and start the V
 npm run serve
 ```
 
-The app should now be running on [http://localhost:8080](http://localhost:5173).
+The app should now be running on [http://localhost:5173](http://localhost:5173).
 
 ## Running Tests
 
